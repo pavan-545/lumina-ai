@@ -67,7 +67,8 @@ We have refactored the API routing to ensure single-responsibility files:
 
 ```
 ├── api/
-│   ├── generate.js                # Express API Route Handler (Router)
+│   └── generate.js                # Vercel Serverless Function Routing Proxy
+├── server/
 │   ├── services/                  # Modular Service Engines
 │   │   ├── analysisService.js     # Subjects & strategy analysis
 │   │   ├── careerService.js       # Career roadmapping

@@ -1,11 +1,11 @@
-import { runAnalysisService } from './services/analysisService.js';
-import { runStudyService } from './services/studyService.js';
-import { runFlashcardService } from './services/flashcardService.js';
-import { runQuizService } from './services/quizService.js';
-import { runChallengeService } from './services/challengeService.js';
-import { runMentorService } from './services/mentorService.js';
-import { runCareerService } from './services/careerService.js';
-import { runRecommendationService } from './services/recommendationService.js';
+import { runAnalysisService } from '../server/services/analysisService.js';
+import { runStudyService } from '../server/services/studyService.js';
+import { runFlashcardService } from '../server/services/flashcardService.js';
+import { runQuizService } from '../server/services/quizService.js';
+import { runChallengeService } from '../server/services/challengeService.js';
+import { runMentorService } from '../server/services/mentorService.js';
+import { runCareerService } from '../server/services/careerService.js';
+import { runRecommendationService } from '../server/services/recommendationService.js';
 
 export default async function handler(req, res) {
   // Only allow POST requests
