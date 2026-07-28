@@ -1,128 +1,226 @@
-# Lumina AI – Universal Intelligent Study Platform & Agent
+# Lumina AI – Study Assistant
 
-> Learn Smarter. Revise Faster. Master Anything.
+Lumina AI is an AI-powered study assistant built with **React**, **Node.js**, and the **Google Gemini API**. It transforms free-form study notes or topics into structured learning materials such as flashcards and quizzes, providing an interactive learning experience instead of a traditional chatbot.
 
-Lumina AI is a production-grade, premium multi-subject educational workspace designed to transform raw study notes, lecture transcripts, or textbook outline materials into structured, personalized study vaults.
-
-Coordinated by a central **AI Orchestrator**, the system automatically detects notes subjects, designs customized step-by-step study plans, and populates interactive modules (Flashcards, Adaptive Quizzes, Conceptual Graphs, AI Mentoring, and Career roadmaps) dynamically tailored to the student's active learning goals.
+This project was developed as part of a Frontend Internship Assignment with a focus on converting AI-generated structured data into reliable, interactive UI components while gracefully handling AI failures.
 
 ---
 
-## 🛠️ Architecture & Services
+# Features
 
-Lumina AI acts as an integrated **AI learning agent** rather than a disconnected bundle of generators. All requests propagate through a client-side orchestrator that merges state and checks local cache repositories.
-
-```
-       [ Client-Side Application Layout ]
-                       │
-                       ▼
-       [ Central AI Orchestrator Service ] ◄──► [ Local Storage Cache & Memory ]
-                       │
-                       ▼
-             [ POST /api/generate ] (Router)
-                       │
-         ┌─────────────┼─────────────┐
-         ▼             ▼             ▼
-  [AnalysisService] [StudyService] [ChallengeService] ... [Mentor / Career Services]
-         │             │             │
-         └─────────────┼─────────────┘
-                       ▼
-               [ Gemini 1.5 API ]
-```
-
-### 1. Central AI Orchestrator (`src/services/aiOrchestrator.js`)
-The orchestrator unifies all outgoing AI transactions:
-- **Shared Context Provider**: Attaches user history, goal styles, active levels, and recent mistakes to every request.
-- **Request Queue Manager**: Sequences outgoing fetches to prevent concurrent task overlapping and browser throttle.
-- **Local Response Cache**: Hashes note contents with parameters and stores results in `localStorage`, eliminating redundant LLM queries.
-- **Offline Resilience**: Automatically falls back to cached materials if the network fails.
-- **Error Recovery Engine**: Invokes JSON text repair algorithms, conducts Zod checks, and triggers retries on format discrepancies.
-- **Event System**: Dispatches event signals (`LEVEL_UP`, `CHALLENGE_COMPLETED`, etc.) to keep independent UI views decoupled.
-
-### 2. Modular Backend Services (`api/services/`)
-We have refactored the API routing to ensure single-responsibility files:
-- **Analysis Service**: Subject-agnostic subject detection, prerequisites mapping, and step-by-step timeline strategy building.
-- **Study Service**: Coordinates Summaries, Syllabus Checklists, Cheat Sheets, React Flow Graphs, and dynamic dynamic subject assets (e.g. debugging for programming, timeline chains for history).
-- **Quiz Service**: Builds balanced, difficulty-tiered question arrays for adaptive quizzing.
-- **Challenge Service**: Designs Level 1 to 5 interactive progression challenges (Beginner to Boss scenario).
-- **Mentor Service**: Acts as a visual analogy and conceptual coach reviewing mistakes notebook stats.
-- **Career Service**: Tracks skill coverage lists and outputs employment roadmaps.
+* Generate AI-powered flashcards from any study topic or notes
+* Interactive flashcards with flip animations
+* AI-generated quizzes
+* Retry incorrectly answered questions
+* Loading, error, and empty states
+* Responsive design for desktop and mobile
+* Backend API to securely communicate with Gemini
+* JSON parsing and validation for AI responses
+* Protection against malformed or incomplete AI output
 
 ---
 
-## 🧠 Core Features Checklist
+# Tech Stack
 
-- [x] **Dynamic Subject Analysis**: Extracts prerequisites, topics, confidence ratings, and objectives from any subject text.
-- [x] **Smart Goal Selection**: Tailors study length and difficulty based on user target (e.g., Quick Revision, Exam Prep, Interview Prep).
-- [x] **Arena Progression (Levels 1–5)**: Locked levels that test practical open-ended scenario answers instead of simple multiple choices.
-- [x] **Interactive AI Tutor (Mentor)**: Feeds mistakes history to the tutor for analogies, ELI5 simplified summaries, and diagnostic tests.
-- [x] **Career Gap Analyzer**: Maps study notes to careers, highlighting skills covered vs. missing and next-step roadmaps.
-- [x] **Chronological Learning Timeline**: Records a beautiful history feed of achievements, completions, and streak logs.
-- [x] **Developer Debug Console**: Setting panel checkbox enabling real-time review of prompts, raw output text, and repair logs.
-- [x] **Feature Flags**: Global toggling for modular page deployment (`src/config/features.js`).
+## Frontend
+
+* React
+* Vite
+* React Hooks
+* Tailwind CSS
+
+## Backend
+
+* Node.js
+* Express.js
+
+## AI
+
+* Google Gemini API
 
 ---
 
-## 📂 Folder Structure
+# Project Structure
 
-```
-├── api/
-│   └── generate.js                # Vercel Serverless Function Routing Proxy
-├── server/
-│   ├── services/                  # Modular Service Engines
-│   │   ├── analysisService.js     # Subjects & strategy analysis
-│   │   ├── careerService.js       # Career roadmapping
-│   │   ├── challengeService.js    # Progression challenge generator
-│   │   ├── flashcardService.js    # Flashcard compilations
-│   │   ├── mentorService.js       # Tutoring & analogy builders
-│   │   ├── quizService.js         # Adaptive study quizzes
-│   │   ├── recommendationService.js # Optimal path calculator
-│   │   └── studyService.js        # Dynamic resource worksheets
-│   ├── prompts/                   # LLM Prompt Templates
-│   └── utils/                     # Backend API Helpers (JSON repairs, Gemini client)
-└── src/
-    ├── config/
-    │   └── features.js            # Global Feature Flags config
-    ├── services/
-    │   └── aiOrchestrator.js      # Central Client-Side AI Manager
-    ├── schemas/
-    │   └── index.js               # Zod Schema Validator Models
-    ├── features/                  # Feature Modules
-    │   ├── landing/               # Premium Intro Landing page
-    │   ├── dashboard/             # Main Hub, Journey feed, streak, and daily challenges
-    │   ├── challenge-arena/       # Level 1-5 progression gameplay
-    │   ├── mentor/                # Tutoring chat analogies
-    │   ├── career/                # Jobs readiness and skill gaps
-    │   ├── subject-analysis/      # Subject profiling card
-    │   └── study/                 # Guide worksheets
-    └── App.jsx                    # Unified React Entrypoint & Event Broker
+```text
+lumina-ai/
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   └── package.json
+│
+├── backend/
+│   ├── routes/
+│   ├── controllers/
+│   ├── services/
+│   ├── package.json
+│   └── server.js
+│
+└── README.md
 ```
 
 ---
 
-## 🚀 Installation & Local Execution
+# Setup
 
-### 1. Environment Settings
-Create a `.env` file in the root directory:
-```env
-GEMINI_API_KEY=your_gemini_api_key_here
-PORT=3000
-```
+## Clone the repository
 
-### 2. Install Packages
 ```bash
+git clone https://github.com/pavan-545/lumina-ai.git
+cd lumina-ai
+```
+
+---
+
+## Backend Setup
+
+```bash
+cd backend
 npm install
 ```
 
-### 3. Run Servers
-Spin up the local Express backend proxy server (on port `3000` to route keys securely):
-```bash
-node server.js
+Create a `.env` file inside the backend folder.
+
+```env
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+PORT=5000
 ```
 
-In a separate terminal, launch the Vite React dev frontend server:
+Start the backend:
+
 ```bash
 npm run dev
 ```
 
-Open **[http://localhost:5173](http://localhost:5173)** in your browser.
+---
+
+## Frontend Setup
+
+Open another terminal.
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The application will be available at:
+
+```
+http://localhost:5173
+```
+
+---
+
+# Usage
+
+1. Start both the backend and frontend servers.
+2. Open the application in your browser.
+3. Enter study notes or a topic into the input field.
+4. Click **Generate**.
+5. Review the generated flashcards or quiz.
+6. Flip flashcards to reveal answers.
+7. Complete the quiz and retry incorrectly answered questions.
+
+---
+
+# AI Integration
+
+The frontend sends the user's prompt to the backend.
+
+The backend securely calls the Google Gemini API.
+
+Gemini returns structured JSON, which is validated before being sent back to the frontend.
+
+The frontend parses the structured response and renders interactive UI components instead of displaying raw AI text.
+
+---
+
+# Handling AI Failures
+
+The application is designed to handle unreliable AI responses gracefully.
+
+It includes:
+
+* Loading indicators while waiting for responses
+* Error messages when requests fail
+* Retry functionality
+* Validation of AI-generated JSON
+* Handling of malformed or incomplete responses
+* Empty-state UI when no data is returned
+* Prevention of stale responses from replacing newer requests
+
+---
+
+# Responsive Design
+
+The application is optimized for:
+
+* Desktop
+* Tablet
+* Mobile devices
+
+---
+
+# AI Usage Note
+
+AI tools were used to assist with brainstorming, debugging, UI improvements, and code suggestions during development.
+
+All application architecture, implementation decisions, debugging, testing, and integration were reviewed and completed manually to ensure full understanding of the codebase.
+
+---
+
+# Known Limitations
+
+* Very large prompts may increase response time.
+* AI-generated content depends on the Gemini model and may occasionally require regeneration.
+* Internet connectivity is required for AI generation.
+* User sessions are not permanently stored.
+
+---
+
+# Time Spent
+
+Approximately **8 hours**, including planning, development, testing, debugging, and documentation.
+
+---
+
+# Demo
+
+Screen Recording:
+
+> *(Add your Google Drive or YouTube (Unlisted) link here before submission.)*
+
+---
+
+# Future Improvements
+
+* Save and reload study sessions
+* Streaming AI responses
+* Dark mode improvements
+* Keyboard navigation
+* Additional study formats such as summaries and mind maps
+
+---
+
+# Submission Checklist
+
+* ✅ React frontend using functional components and hooks
+* ✅ Free-form text input
+* ✅ Google Gemini API integration
+* ✅ Structured JSON parsing
+* ✅ Interactive UI (not a chatbot)
+* ✅ Loading, error, and empty states
+* ✅ Robust handling of malformed AI output
+* ✅ Mobile responsive
+* ✅ Backend-secured API key
+* ✅ README with setup, usage, AI usage note, known limitations, and time spent
+
+---
+
+## Author
+
+**Pavan Chandaka**
+
+GitHub: https://github.com/pavan-545
